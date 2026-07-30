@@ -1,0 +1,56 @@
+.vs/
+.vscode/
+.idea/
+
+# Build artifacts
+[Bb]in/
+[Oo]bj/
+out/
+publish/
+TestResults/
+
+# Visual Studio files
+*.suo
+*.user
+*.userosscache
+*.userprefs
+*.sln.docstates
+*.vsp
+
+# NuGet
+packages/
+*.nupkg
+project.lock.json
+.nuget/
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# Rider
+/.idea/
+
+# ASP.NET Core
+wwwroot/node_modules/
+appsettings.*.Local.json
+
+# App settings (ignore local secrets/config)
+appsettings.json
+appsettings.Development.json
+
+# Entity Framework
+*.db
+
+# Logs
+*.log
+
+# Node/npm
+node_modules/
+bower_components/
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Environment
+.env

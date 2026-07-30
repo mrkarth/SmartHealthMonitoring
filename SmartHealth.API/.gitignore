@@ -1,0 +1,17 @@
+# Project-level .gitignore for SmartHealth.API
+
+# Ignore local appsettings
+appsettings.json
+appsettings.Development.json
+.env
+
+# Build artifacts
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.user
+*.suo
+
+# Logs
+*.log
