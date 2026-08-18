@@ -3,6 +3,8 @@
 # Ignore local appsettings
 appsettings.json
 appsettings.Development.json
+
+# Ignore Environment variable files
 .env
 
 # Build artifacts
