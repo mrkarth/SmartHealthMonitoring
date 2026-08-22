@@ -1,11 +1,9 @@
 ﻿//using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
 using SmartHealth.API.Entities;
-using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using System.Security.Claims;
-using System.Text.Encodings.Web;
+using System.Text;
 
 namespace SmartHealth.API.Security
 {
@@ -32,12 +30,14 @@ namespace SmartHealth.API.Security
 
             var cedentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
 
-            var expirationMinutes = int.Parse(_configuration["JwtSettings:ExpirationMinutes"] ?? "15");
+            //var expirationMinutes = int.Parse(_configuration["JwtSettings:ExpirationMinutes"] ?? "15");
+            var expirationMinutes = int.Parse(_configuration["JwtSettings:ExpirationInMinutes"] ?? "15");
+
 
             var expiration = DateTime.UtcNow.AddMinutes(expirationMinutes);
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["jwtSettings:Issuer"],
+                issuer: _configuration["JwtSettings:Issuer"],
                 audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
                 expires: expiration,

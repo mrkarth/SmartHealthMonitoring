@@ -18,9 +18,10 @@ namespace SmartHealth.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginRequestDto request)
         {
-            var response = _authService.LoginAsync(request);
+            var response = await _authService.LoginAsync(request);
 
             return Ok(response);
+            //turn Ok(request);
         }
     }
 }

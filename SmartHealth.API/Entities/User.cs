@@ -17,6 +17,8 @@
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
         public Role Role { get; set; } = null!;
 
-
+        public Patient Patient { get; set; } = null!;
+        public Doctor Doctor { get; set; } = null!;
+        public HealthWorker HealthWorker { get; set; } = null!;
     }
 }

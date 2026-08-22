@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartHealth.API.Data;
 
@@ -11,9 +12,11 @@ using SmartHealth.API.Data;
 namespace SmartHealth.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260822190859_AddPatient")]
+    partial class AddPatient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,95 +24,6 @@ namespace SmartHealth.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("SmartHealth.API.Entities.Doctor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("HospitalName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("LicenseNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("YearsOfExperience")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LicenseNumber")
-                        .IsUnique();
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Doctors");
-                });
-
-            modelBuilder.Entity("SmartHealth.API.Entities.HealthWorker", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FacilityName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("HealthWorkers");
-                });
 
             modelBuilder.Entity("SmartHealth.API.Entities.Patient", b =>
                 {
@@ -162,38 +76,6 @@ namespace SmartHealth.API.Migrations
                         .IsUnique();
 
                     b.ToTable("Patients");
-                });
-
-            modelBuilder.Entity("SmartHealth.API.Entities.PatientDoctorAssignment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AssignedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("EndedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsPrimary")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DoctorId");
-
-                    b.HasIndex("PatientId", "DoctorId", "AssignedAt");
-
-                    b.ToTable("PatientDoctorAssignments");
                 });
 
             modelBuilder.Entity("SmartHealth.API.Entities.RefreshToken", b =>
@@ -307,28 +189,6 @@ namespace SmartHealth.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SmartHealth.API.Entities.Doctor", b =>
-                {
-                    b.HasOne("SmartHealth.API.Entities.User", "User")
-                        .WithOne("Doctor")
-                        .HasForeignKey("SmartHealth.API.Entities.Doctor", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SmartHealth.API.Entities.HealthWorker", b =>
-                {
-                    b.HasOne("SmartHealth.API.Entities.User", "User")
-                        .WithOne("HealthWorker")
-                        .HasForeignKey("SmartHealth.API.Entities.HealthWorker", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("SmartHealth.API.Entities.Patient", b =>
                 {
                     b.HasOne("SmartHealth.API.Entities.User", "User")
@@ -338,25 +198,6 @@ namespace SmartHealth.API.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SmartHealth.API.Entities.PatientDoctorAssignment", b =>
-                {
-                    b.HasOne("SmartHealth.API.Entities.Doctor", "Doctor")
-                        .WithMany("PatientAssignments")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SmartHealth.API.Entities.Patient", "Patient")
-                        .WithMany("DoctorAssignments")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("Patient");
                 });
 
             modelBuilder.Entity("SmartHealth.API.Entities.RefreshToken", b =>
@@ -381,16 +222,6 @@ namespace SmartHealth.API.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("SmartHealth.API.Entities.Doctor", b =>
-                {
-                    b.Navigation("PatientAssignments");
-                });
-
-            modelBuilder.Entity("SmartHealth.API.Entities.Patient", b =>
-                {
-                    b.Navigation("DoctorAssignments");
-                });
-
             modelBuilder.Entity("SmartHealth.API.Entities.Role", b =>
                 {
                     b.Navigation("Users");
@@ -398,12 +229,6 @@ namespace SmartHealth.API.Migrations
 
             modelBuilder.Entity("SmartHealth.API.Entities.User", b =>
                 {
-                    b.Navigation("Doctor")
-                        .IsRequired();
-
-                    b.Navigation("HealthWorker")
-                        .IsRequired();
-
                     b.Navigation("Patient")
                         .IsRequired();
 
